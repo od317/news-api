@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'authentication',  # Add this
     'news',           # Add this
     'rest_framework_simplejwt.token_blacklist',
+     'investigations',
 ]
 
 MEDIA_URL = '/media/'
