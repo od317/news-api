@@ -4,23 +4,21 @@ Django settings for newsApi project.
 
 from pathlib import Path
 import os
-import dj_database_url
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key-for-development-only')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-n%*2^_2pp^s!yk%^v$$x)q4-l(6+9#c)vnb*xf=p@dvd%xf7qx')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = False
 
 ALLOWED_HOSTS = [
-    '.onrender.com',
+    'yourusername.pythonanywhere.com',  # REPLACE WITH YOUR USERNAME
     'localhost',
     '127.0.0.1',
-    'od317.pythonanywhere.com'  # Keep your existing domain
 ]
 
 # Application definition
@@ -42,7 +40,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ADD THIS
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -70,12 +67,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newsApi.wsgi.application'
 
-# Database - Use PostgreSQL on Render, SQLite locally
+# Database - PythonAnywhere uses MySQL by default, but we'll stick with SQLite
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Password validation
@@ -134,21 +131,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# Static files - IMPORTANT FOR PYTHONANYWHERE
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Security settings for production
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
